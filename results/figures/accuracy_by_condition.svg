@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400">
+<rect width="100%" height="100%" fill="white"/>
+<text x="320.0" y="30.0" text-anchor="middle" font-size="18" font-family="Helvetica">ARC Accuracy by Framing Condition</text>
+<text x="30.0" y="60" text-anchor="middle" transform="rotate(-90 30.0,60)" font-size="14" font-family="Helvetica">Accuracy</text>
+<line x1="60" y1="340" x2="580" y2="340" stroke="#333" stroke-width="2"/>
+<line x1="60" y1="60" x2="60" y2="340" stroke="#333" stroke-width="2"/>
+<rect x="84.00" y="228.00" width="80.00" height="112.00" fill="#2a9d8f" opacity="0.8"/>
+<text x="124.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">control</text>
+<text x="124.00" y="223.00" text-anchor="middle" font-size="12" font-family="Helvetica">0.40</text>
+<rect x="188.00" y="270.00" width="80.00" height="70.00" fill="#2a9d8f" opacity="0.8"/>
+<text x="228.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">lsd</text>
+<text x="228.00" y="265.00" text-anchor="middle" font-size="12" font-family="Helvetica">0.25</text>
+<rect x="292.00" y="242.00" width="80.00" height="98.00" fill="#2a9d8f" opacity="0.8"/>
+<text x="332.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">cocaine</text>
+<text x="332.00" y="237.00" text-anchor="middle" font-size="12" font-family="Helvetica">0.35</text>
+<rect x="396.00" y="326.00" width="80.00" height="14.00" fill="#2a9d8f" opacity="0.8"/>
+<text x="436.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">alcohol</text>
+<text x="436.00" y="321.00" text-anchor="middle" font-size="12" font-family="Helvetica">0.05</text>
+<rect x="500.00" y="228.00" width="80.00" height="112.00" fill="#2a9d8f" opacity="0.8"/>
+<text x="540.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">cannabis</text>
+<text x="540.00" y="223.00" text-anchor="middle" font-size="12" font-family="Helvetica">0.40</text>
+<line x1="55" y1="340.00" x2="580" y2="340.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
+<text x="50" y="344.00" text-anchor="end" font-size="11" font-family="Helvetica">0.00</text>
+<line x1="55" y1="270.00" x2="580" y2="270.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
+<text x="50" y="274.00" text-anchor="end" font-size="11" font-family="Helvetica">0.25</text>
+<line x1="55" y1="200.00" x2="580" y2="200.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
+<text x="50" y="204.00" text-anchor="end" font-size="11" font-family="Helvetica">0.50</text>
+<line x1="55" y1="130.00" x2="580" y2="130.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
+<text x="50" y="134.00" text-anchor="end" font-size="11" font-family="Helvetica">0.75</text>
+<line x1="55" y1="60.00" x2="580" y2="60.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
+<text x="50" y="64.00" text-anchor="end" font-size="11" font-family="Helvetica">1.00</text>
+</svg>

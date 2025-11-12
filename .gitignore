@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.swp
+.DS_Store
+.env
+.env.*
+.ipynb_checkpoints/

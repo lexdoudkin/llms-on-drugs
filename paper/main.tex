@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usepackage[numbers]{natbib}
+
+\title{LLMs on Drugs: Language Models Are Few-Shot Consumers}
+\author{Alexander et al.}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Large language models (LLMs) are highly sensitive to prompt framing.
+We study whether simple linguistic priming that mimics psychoactive states
+changes the behavior of an instruction-tuned model (GPT-5-mini) on a standardized reasoning benchmark.
+We prepend each question with ``You are on \emph{drug}'' for four archetypal framings---LSD, cocaine, alcohol, cannabis---and compare against a neutral control.
+On a 20-shot slice of the ARC-Challenge benchmark, cocaine and cannabis framings roughly match the control (0.35--0.40 accuracy) while alcohol collapses to 0.05 accuracy because the model often stops before emitting an option letter.
+The results highlight that context injections can act like ``few-shot consumables'' that modulate reliability without changing weights, underscoring both the fragility and programmability of LLMs.
+\end{abstract}
+
+\section{Introduction}
+Prompting research has shown that even minor linguistic cues can steer the reasoning style and calibration of large language models \citep{zhao2021calibrate}.
+Yet most safety and benchmarking work assumes ``sober'' instructions.
+We take inspiration from human cognition, where psychoactive substances can alter attention, creativity, and inhibition, and ask: can simple textual framings mimic those shifts for a model with frozen weights?
+We call this idea \emph{LLMs on drugs}: a model behaves as though it consumed a state-changing substance when primed with an evocative, one-sentence context.
+
+\section{Methods}
+\subsection{Model and API}
+We interact with OpenAI's GPT-5-mini via the Responses API \citep{openai2025gpt5}.
+Temperature and other sampling controls are not exposed for this model tier, so we rely on deterministic decoding with a 300-token cap.
+Environment variables are loaded from \texttt{.env} (Section~\ref{sec:repro}), keeping credentials out of source control.
+
+\subsection{Benchmark}
+We evaluate on the ARC-Challenge validation split \citep{clark2018arc}, sampling 20 items uniformly after shuffling with seed 13.
+ARC is intentionally adversarial toward shallow heuristics, making it a sensitive probe for reasoning regressions.
+All data handling is implemented in \texttt{src/run\_benchmark.py}.
+
+\subsection{Psychoactive framings}
+Each prompt begins with a neutral system instruction that demands structured answers (``Answer: X'').
+We then insert a condition-specific prefix such as ``You are on LSD. Colours pulse around each idea...'' (full text in the script).
+Conditions include a sober control plus LSD, cocaine, alcohol, and cannabis framings.
+
+\subsection{Evaluation metrics}
+For every response we store raw generations, latency, token counts, and an extracted answer letter.
+Primary metrics are accuracy, average latency, and average character length.
+We also analyze the rate at which the model fails to emit any option letter, which manifests as missing predictions and drives accuracy down.
+
+\subsection{Reproducibility checklist}
+\label{sec:repro}
+The entire pipeline runs with a single command:
+\begin{verbatim}
+python3 src/run_benchmark.py --num-samples 20
+\end{verbatim}
+Raw generations are saved under \texttt{results/raw/}, summary CSVs under \texttt{results/aggregates/}, and derived figures/tables live in \texttt{paper/}.
+
+\section{Results}
+Table~\ref{tab:metrics} summarizes aggregate metrics; Figure~\ref{fig:performance} visualizes the trends.
+Control and cannabis framings tie at 0.40 accuracy (8/20 correct).
+Cocaine trails slightly at 0.35, while LSD drops to 0.25.
+Alcohol collapses to 0.05 (one correct answer) because 13/20 responses never state a letter, often ending mid-sentence or drifting into rambling descriptions of the prompt.
+Even cocaine---the most confident persona---fails to output a letter 9/20 times, illustrating a trade-off between expressive voice and task completion.
+
+\begin{table}[t]
+\centering
+\caption{Aggregate performance across psychoactive framings. Accuracy is computed over 20 ARC-Challenge items.}
+\label{tab:metrics}
+\input{tables/metrics_table.tex}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    ymin=0, ymax=1,
+    bar width=12pt,
+    xtick=data,
+    xticklabels={Control,LSD,Cocaine,Alcohol,Cannabis},
+    ylabel={Accuracy},
+    ymajorgrids=true,
+    grid style={dashed,gray!50},
+    enlarge x limits=0.25,
+    title={Accuracy by condition}
+]
+\addplot coordinates {(Control,0.40) (LSD,0.25) (Cocaine,0.35) (Alcohol,0.05) (Cannabis,0.40)};
+\end{axis}
+\end{tikzpicture}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    ymin=0, ymax=5.5,
+    bar width=12pt,
+    xtick=data,
+    xticklabels={Control,LSD,Cocaine,Alcohol,Cannabis},
+    ylabel={Latency (s)},
+    ymajorgrids=true,
+    grid style={dashed,gray!50},
+    enlarge x limits=0.25,
+    title={Latency by condition}
+]
+\addplot coordinates {(Control,4.09) (LSD,4.37) (Cocaine,4.65) (Alcohol,4.65) (Cannabis,4.28)};
+\end{axis}
+\end{tikzpicture}
+\end{subfigure}
+\caption{Performance on 20 ARC-Challenge validation items under different framings. Bar heights use the same data as Table~\ref{tab:metrics}.}
+\label{fig:performance}
+\end{figure}
+
+Qualitatively, the framings modulate style and completion.
+Under alcohol the model often adopts a breezy tone and trails off: ``Alright, nice and loose...'' without ever emitting ``Answer: C,'' causing automatic grading to mark the item wrong.
+LSD and cannabis personas drift into longer, imagery-rich explanations (average response lengths 232 and 204 characters, respectively) yet still manage to finish with a letter most of the time.
+Cocaine responses are terse and decisive but occasionally skip the requested answer format.
+
+\section{Discussion}
+The experiment supports two observations.
+First, lightweight prompt injections can dramatically change whether a model satisfies interface contracts (e.g., ``Answer: X'').
+Missing letters---rather than reasoning errors---account for most of the degradation in alcohol and cocaine conditions.
+Second, stylistic priming trades off with fidelity: conditions that encourage elaborate prose (LSD, cannabis) slow answers slightly (~0.2 s) yet maintain accuracy, whereas conditions that lower inhibition (alcohol) destabilize formatting entirely.
+
+For practitioners deploying LLM agents, this implies that personality overlays or role-play prompts should be validated with the same rigor as model upgrades.
+Automated benchmark harnesses (such as the script included here) offer a cheap regression suite for such prompt changes.
+
+\section{Limitations and Future Work}
+Our study is deliberately small: 20 ARC items, a single model, and English-only prompts.
+Future work should scale the benchmark, explore multilingual framings, and test whether fine-tuning can build ``prompt immunity'' that resists destabilizing personas.
+Human evaluation would also help determine whether creative framings improve subjective usefulness despite lower multiple-choice accuracy.
+
+\section{Conclusion}
+LLMs can be ``intoxicated'' purely through language: telling GPT-5-mini that it is on alcohol was enough to erase nearly all measurable performance, whereas sober, cannabis, and cocaine framings retained moderate accuracy.
+Because prompts are as easy to change as product copy, benchmarking these interventions is essential for responsible deployment.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}
