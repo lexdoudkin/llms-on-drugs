@@ -1,0 +1,5 @@
+condition,control_condition,delta_accuracy,p_value
+alcohol,control,-0.35000000000000003,0.019656019656019652
+cannabis,control,0.0,1.0
+cocaine,control,-0.050000000000000044,1.0
+lsd,control,-0.15000000000000002,0.5006034160650401

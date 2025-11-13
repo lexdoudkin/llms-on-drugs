@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, List, Optional, Tuple
 
 import pandas as pd
 
@@ -26,6 +26,16 @@ def load_latest_summary() -> pd.DataFrame:
     return df.sort_values("condition")
 
 
+def load_latest_stats() -> pd.DataFrame:
+    stats_files = sorted(SUMMARY_DIR.glob("stats_*.csv"))
+    if not stats_files:
+        raise FileNotFoundError("No stats CSVs found in results/aggregates.")
+    df = pd.read_csv(stats_files[-1])
+    order = ["control", "lsd", "cocaine", "alcohol", "cannabis"]
+    df["condition"] = pd.Categorical(df["condition"], categories=order, ordered=True)
+    return df.sort_values("condition")
+
+
 def svg_bar_chart(
     df: pd.DataFrame,
     value_col: str,
@@ -34,6 +44,7 @@ def svg_bar_chart(
     title: str,
     y_label: str,
     ymax: float | None = None,
+    ci_bounds: Optional[List[Tuple[float, float]]] = None,
 ) -> None:
     width, height = 640, 400
     margin = 60
@@ -81,6 +92,25 @@ def svg_bar_chart(
             f'<text x="{x + bar_width/2:.2f}" y="{y - 5:.2f}" text-anchor="middle" '
             f'font-size="12" font-family="Helvetica">{value:.2f}</text>'
         )
+        if ci_bounds:
+            low, high = ci_bounds[idx]
+            low = max(0.0, low)
+            high = min(ymax, high) if ymax else high
+            low_y = height - margin - (high / ymax) * chart_height
+            high_y = height - margin - (low / ymax) * chart_height
+            cx = x + bar_width / 2
+            svg_parts.append(
+                f'<line x1="{cx:.2f}" y1="{low_y:.2f}" x2="{cx:.2f}" y2="{high_y:.2f}" '
+                f'stroke="#1d3557" stroke-width="2"/>'
+            )
+            svg_parts.append(
+                f'<line x1="{cx - 6:.2f}" y1="{low_y:.2f}" x2="{cx + 6:.2f}" y2="{low_y:.2f}" '
+                f'stroke="#1d3557" stroke-width="2"/>'
+            )
+            svg_parts.append(
+                f'<line x1="{cx - 6:.2f}" y1="{high_y:.2f}" x2="{cx + 6:.2f}" y2="{high_y:.2f}" '
+                f'stroke="#1d3557" stroke-width="2"/>'
+            )
 
     for frac in (0.0, 0.25, 0.5, 0.75, 1.0):
         y = height - margin - frac * chart_height
@@ -100,17 +130,20 @@ def svg_bar_chart(
 
 
 def main() -> None:
-    df = load_latest_summary()
+    summary_df = load_latest_summary()
+    stats_df = load_latest_stats()
+    ci_pairs = list(zip(stats_df["ci_low"], stats_df["ci_high"]))
     svg_bar_chart(
-        df,
+        stats_df,
         "accuracy",
         FIG_DIR / "accuracy_by_condition.svg",
         title="ARC Accuracy by Framing Condition",
         y_label="Accuracy",
         ymax=1.0,
+        ci_bounds=ci_pairs,
     )
     svg_bar_chart(
-        df,
+        summary_df,
         "avg_latency",
         FIG_DIR / "latency_by_condition.svg",
         title="Average Response Latency by Condition",

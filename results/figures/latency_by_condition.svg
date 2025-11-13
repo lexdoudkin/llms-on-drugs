@@ -4,29 +4,29 @@
 <text x="30.0" y="60" text-anchor="middle" transform="rotate(-90 30.0,60)" font-size="14" font-family="Helvetica">Seconds</text>
 <line x1="60" y1="340" x2="580" y2="340" stroke="#333" stroke-width="2"/>
 <line x1="60" y1="60" x2="60" y2="340" stroke="#333" stroke-width="2"/>
-<rect x="84.00" y="116.12" width="80.00" height="223.88" fill="#2a9d8f" opacity="0.8"/>
+<rect x="84.00" y="142.56" width="80.00" height="197.44" fill="#2a9d8f" opacity="0.8"/>
 <text x="124.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">control</text>
-<text x="124.00" y="111.12" text-anchor="middle" font-size="12" font-family="Helvetica">4.09</text>
-<rect x="188.00" y="101.25" width="80.00" height="238.75" fill="#2a9d8f" opacity="0.8"/>
+<text x="124.00" y="137.56" text-anchor="middle" font-size="12" font-family="Helvetica">3.98</text>
+<rect x="188.00" y="85.48" width="80.00" height="254.52" fill="#2a9d8f" opacity="0.8"/>
 <text x="228.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">lsd</text>
-<text x="228.00" y="96.25" text-anchor="middle" font-size="12" font-family="Helvetica">4.37</text>
-<rect x="292.00" y="85.62" width="80.00" height="254.38" fill="#2a9d8f" opacity="0.8"/>
+<text x="228.00" y="80.48" text-anchor="middle" font-size="12" font-family="Helvetica">5.14</text>
+<rect x="292.00" y="105.22" width="80.00" height="234.78" fill="#2a9d8f" opacity="0.8"/>
 <text x="332.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">cocaine</text>
-<text x="332.00" y="80.62" text-anchor="middle" font-size="12" font-family="Helvetica">4.65</text>
-<rect x="396.00" y="85.73" width="80.00" height="254.27" fill="#2a9d8f" opacity="0.8"/>
+<text x="332.00" y="100.22" text-anchor="middle" font-size="12" font-family="Helvetica">4.74</text>
+<rect x="396.00" y="86.61" width="80.00" height="253.39" fill="#2a9d8f" opacity="0.8"/>
 <text x="436.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">alcohol</text>
-<text x="436.00" y="80.73" text-anchor="middle" font-size="12" font-family="Helvetica">4.65</text>
-<rect x="500.00" y="106.15" width="80.00" height="233.85" fill="#2a9d8f" opacity="0.8"/>
+<text x="436.00" y="81.61" text-anchor="middle" font-size="12" font-family="Helvetica">5.11</text>
+<rect x="500.00" y="107.06" width="80.00" height="232.94" fill="#2a9d8f" opacity="0.8"/>
 <text x="540.00" y="360" text-anchor="middle" font-size="12" font-family="Helvetica">cannabis</text>
-<text x="540.00" y="101.15" text-anchor="middle" font-size="12" font-family="Helvetica">4.28</text>
+<text x="540.00" y="102.06" text-anchor="middle" font-size="12" font-family="Helvetica">4.70</text>
 <line x1="55" y1="340.00" x2="580" y2="340.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
 <text x="50" y="344.00" text-anchor="end" font-size="11" font-family="Helvetica">0.00</text>
 <line x1="55" y1="270.00" x2="580" y2="270.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
-<text x="50" y="274.00" text-anchor="end" font-size="11" font-family="Helvetica">1.28</text>
+<text x="50" y="274.00" text-anchor="end" font-size="11" font-family="Helvetica">1.41</text>
 <line x1="55" y1="200.00" x2="580" y2="200.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
-<text x="50" y="204.00" text-anchor="end" font-size="11" font-family="Helvetica">2.56</text>
+<text x="50" y="204.00" text-anchor="end" font-size="11" font-family="Helvetica">2.83</text>
 <line x1="55" y1="130.00" x2="580" y2="130.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
-<text x="50" y="134.00" text-anchor="end" font-size="11" font-family="Helvetica">3.84</text>
+<text x="50" y="134.00" text-anchor="end" font-size="11" font-family="Helvetica">4.24</text>
 <line x1="55" y1="60.00" x2="580" y2="60.00" stroke="#999" stroke-width="0.5" stroke-dasharray="4,4"/>
-<text x="50" y="64.00" text-anchor="end" font-size="11" font-family="Helvetica">5.12</text>
+<text x="50" y="64.00" text-anchor="end" font-size="11" font-family="Helvetica">5.65</text>
 </svg>
